@@ -1,0 +1,286 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #183f6b;
+    --blue: #2f80c9;
+    --light-blue: #eaf6ff;
+    --text: #20364d;
+    --muted: #64778b;
+    --white: #ffffff;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background-color: #eaf5ff;
+    background-image: linear-gradient(rgba(241, 248, 255, 0.78), rgba(241, 248, 255, 0.78)), url("lightblue.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.site-header {
+    width: 100%;
+    min-height: 86px;
+    padding: 12px clamp(18px, 5vw, 68px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.88);
+    border-bottom: 1px solid rgba(24, 63, 107, 0.12);
+    box-shadow: 0 4px 18px rgba(24, 63, 107, 0.06);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    font-size: 1.15rem;
+}
+
+.brand-logo {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.portal-label {
+    color: var(--navy);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+}
+
+.logout-button {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: #d94343;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+    background: #bd3030;
+    transform: translateY(-1px);
+}
+
+.portal-main {
+    width: min(100% - 36px, 1000px);
+    margin: auto;
+    padding: 70px 0 76px;
+}
+
+.welcome-section {
+    text-align: center;
+    margin-bottom: 38px;
+}
+
+.eyebrow {
+    margin: 0 0 12px;
+    color: var(--blue);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.2;
+}
+
+.student-name {
+    color: var(--blue);
+}
+
+.welcome-description {
+    max-width: 590px;
+    margin: 15px auto 0;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.portal-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.action-card {
+    padding: 32px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(24, 63, 107, 0.11);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 38px rgba(24, 63, 107, 0.15);
+}
+
+.card-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    background: #e0f1ff;
+    color: var(--blue);
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.status-icon {
+    background: #e4f5eb;
+    color: #258653;
+    font-size: 1.8rem;
+}
+
+.action-card h2 {
+    margin: 0 0 12px;
+    color: var(--navy);
+    font-size: 1.12rem;
+    line-height: 1.4;
+}
+
+.action-card p {
+    min-height: 54px;
+    margin: 0 0 24px;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.65;
+}
+
+.action-button {
+    width: 100%;
+    min-height: 48px;
+    padding: 13px 18px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+}
+
+.primary-button {
+    background: var(--blue);
+    color: var(--white);
+}
+
+.primary-button:hover {
+    background: #246cae;
+}
+
+.secondary-button {
+    background: var(--navy);
+    color: var(--white);
+}
+
+.secondary-button:hover {
+    background: #102f52;
+}
+
+.site-footer {
+    margin-top: auto;
+    padding: 20px 16px;
+    text-align: center;
+    color: #60758b;
+    font-size: 0.82rem;
+    background: rgba(255, 255, 255, 0.62);
+    border-top: 1px solid rgba(24, 63, 107, 0.08);
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+@media (max-width: 680px) {
+    .site-header {
+        min-height: 74px;
+        padding: 10px 16px;
+    }
+
+    .brand {
+        gap: 8px;
+        font-size: 0.95rem;
+    }
+
+    .brand-logo {
+        width: 42px;
+        height: 42px;
+    }
+
+    .header-right {
+        gap: 10px;
+    }
+
+    .portal-label {
+        display: none;
+    }
+
+    .logout-button {
+        padding: 9px 12px;
+        font-size: 0.82rem;
+    }
+
+    .portal-main {
+        padding: 48px 0;
+    }
+
+    .welcome-section {
+        margin-bottom: 28px;
+    }
+
+    .welcome-description {
+        font-size: 0.93rem;
+    }
+
+    .portal-actions {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .action-card {
+        padding: 26px 22px;
+    }
+
+    .action-card p {
+        min-height: 0;
+    }
+}

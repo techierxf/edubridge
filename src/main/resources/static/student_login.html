@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU-BRIDGE | Student Login</title>
+    <link rel="stylesheet" href="studentlogin.css">
+</head>
+<body>
+    <main class="login-page">
+        <section class="login-side" aria-label="Student login">
+            <div class="login-content">
+                <p class="eyebrow">EDU-BRIDGE STUDENT PORTAL</p>
+                <h1>STUDENT LOGIN</h1>
+
+                <form class="login-form" id="studentLoginForm">
+
+                    <label for="email">EMAIL</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your student email"
+                        autocomplete="username"
+                        required
+                    >
+
+                    <label for="password">PASSWORD</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button type="submit" class="enter-button">
+                        ENTER
+                    </button>
+
+                    <p id="loginMessage" role="alert"></p>
+                </form>
+
+                <p>
+                    Don't have an account?
+                    <a href="student_signup.html">Sign up here</a>
+                </p>
+
+                <a class="back-link" href="login_page.html">
+                    ← Back to portal selection
+                </a>
+            </div>
+        </section>
+
+        <section class="welcome-side" aria-label="Welcome to EDU-BRIDGE">
+            <div class="welcome-image"
+                 role="img"
+                 aria-label="EDU-BRIDGE welcome artwork"></div>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById("studentLoginForm")
+            .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const message = document.getElementById("loginMessage");
+
+            message.textContent = "Checking login...";
+
+            try {
+                const response = await fetch("/api/students/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    message.textContent = result.message;
+                    window.location.href = "student_portal.html";
+                } else {
+                    message.textContent =
+                        result.message || "Invalid email or password.";
+                }
+
+            } catch (error) {
+                message.textContent =
+                    "Cannot connect to the server. Please try again.";
+
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

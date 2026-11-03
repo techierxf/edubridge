@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU-BRIDGE | Review Application</title>
+    <link rel="stylesheet" href="staff_dashboard.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <a class="brand" href="staff_dashboard.html">
+            <img src="logo.png" alt="EDU-BRIDGE logo">
+        </a>
+
+        <nav class="side-nav" aria-label="Staff navigation">
+            <a class="nav-link" href="staff_dashboard.html">Dashboard</a>
+            <a class="nav-link" href="staff_records.html">Record</a>
+            <a class="nav-link active" href="staff_applications.html">Applications</a>
+        </nav>
+
+        <a class="logout-link" href="login_page.html">Log out</a>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div class="system-title">Student Enrollment System</div>
+            <a class="primary-btn" href="staff_applications.html"
+               style="text-decoration:none">Back to Applications</a>
+        </header>
+
+        <section class="page-heading">
+            <div>
+                <h1>Review Application</h1>
+                <p>Review the student's submitted enrollment information.</p>
+            </div>
+        </section>
+
+        <div class="table-wrap" style="padding:25px;">
+
+            <h2>Application Information</h2>
+
+            <p><strong>Reference Number:</strong>
+                <span id="referenceNo">Loading...</span>
+            </p>
+
+            <p><strong>Application Status:</strong>
+                <span id="status">Loading...</span>
+            </p>
+
+            <hr>
+
+            <h2>Student Information</h2>
+
+            <p><strong>Full Name:</strong> <span id="fullName"></span></p>
+            <p><strong>Date of Birth:</strong> <span id="dateOfBirth"></span></p>
+            <p><strong>Sex:</strong> <span id="sex"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <p><strong>Contact Number:</strong> <span id="contactNumber"></span></p>
+            <p><strong>Complete Address:</strong> <span id="completeAddress"></span></p>
+
+            <hr>
+
+            <h2>Enrollment Information</h2>
+
+            <p><strong>Student Type:</strong> <span id="studentType"></span></p>
+            <p><strong>Academic Year:</strong> <span id="academicYear"></span></p>
+            <p><strong>Semester:</strong> <span id="semester"></span></p>
+            <p><strong>Course:</strong> <span id="courseId"></span></p>
+            <p><strong>Year Level:</strong> <span id="yearLevel"></span></p>
+            <p><strong>Previous School:</strong> <span id="previousSchoolName"></span></p>
+            <p><strong>Previous Course:</strong> <span id="previousCourse"></span></p>
+            <p><strong>Last Year Level:</strong> <span id="lastYearLevel"></span></p>
+
+            <hr>
+
+            <h2>Guardian Information</h2>
+
+            <p><strong>Guardian Name:</strong> <span id="guardianFullName"></span></p>
+            <p><strong>Relationship:</strong> <span id="guardianRelationship"></span></p>
+            <p><strong>Guardian Contact:</strong> <span id="guardianContactNumber"></span></p>
+            <hr>
+
+
+<section class="decision-card">
+
+    <div class="decision-heading">
+        <div class="decision-icon">✓</div>
+        <div>
+            <h2>Application Decision</h2>
+            <p>Review the application and provide feedback before making your final decision.</p>
+        </div>
+    </div>
+
+    <div class="remarks-field">
+        <label for="remarks">Registrar Remarks</label>
+
+        <textarea
+            id="remarks"
+            rows="5"
+            placeholder="Write your remarks or explain the reason for your decision..."
+        ></textarea>
+
+        <small>
+            Your remarks will be visible to the student on their Enrollment Status page.
+        </small>
+    </div>
+
+    <div class="decision-actions">
+
+        <button
+            type="button"
+            class="reject-button"
+            onclick="updateApplication('REJECTED')">
+            Reject Application
+        </button>
+
+        <button
+            type="button"
+            class="approve-button"
+            onclick="updateApplication('APPROVED')">
+            Approve Application
+        </button>
+
+    </div>
+
+</section>
+
+
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const applicationId = params.get("id");
+
+        async function loadApplication() {
+
+            if (!applicationId) {
+                alert("No application ID provided.");
+                window.location.href = "staff_applications.html";
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `/api/staff/applications/${encodeURIComponent(applicationId)}`
+                );
+
+                if (!response.ok) {
+                    throw new Error("Application not found.");
+                }
+
+                const app = await response.json();
+
+                document.getElementById("referenceNo").textContent = app.referenceNo ?? "";
+                document.getElementById("status").textContent = app.status ?? "";
+                document.getElementById("fullName").textContent = app.fullName ?? "";
+                document.getElementById("dateOfBirth").textContent = app.dateOfBirth ?? "";
+                document.getElementById("sex").textContent = app.sex ?? "";
+                document.getElementById("email").textContent = app.email ?? "";
+                document.getElementById("contactNumber").textContent = app.contactNumber ?? "";
+                document.getElementById("completeAddress").textContent = app.completeAddress ?? "";
+                document.getElementById("studentType").textContent = app.studentType ?? "";
+                document.getElementById("academicYear").textContent = app.academicYear ?? "";
+                document.getElementById("semester").textContent = app.semester ?? "";
+                document.getElementById("courseId").textContent = app.courseId ?? "";
+                document.getElementById("yearLevel").textContent = app.yearLevel ?? "";
+                document.getElementById("previousSchoolName").textContent = app.previousSchoolName || "N/A";
+                document.getElementById("previousCourse").textContent = app.previousCourse || "N/A";
+                document.getElementById("lastYearLevel").textContent = app.lastYearLevel ?? "N/A";
+                document.getElementById("guardianFullName").textContent = app.guardianFullName ?? "";
+                document.getElementById("guardianRelationship").textContent = app.guardianRelationship ?? "";
+                document.getElementById("guardianContactNumber").textContent = app.guardianContactNumber ?? "";
+
+            } catch (error) {
+                console.error(error);
+                alert("Unable to load application details.");
+            }
+        }
+
+        loadApplication();
+        async function updateApplication(status) {
+
+    const remarks = document.getElementById("remarks").value.trim();
+
+    if (!remarks) {
+        alert("Please enter remarks first.");
+        return;
+    }
+
+    const confirmDecision = confirm(
+        "Are you sure you want to " + status + " this application?"
+    );
+
+    if (!confirmDecision) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `/api/staff/applications/${encodeURIComponent(applicationId)}/decision`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    status: status,
+                    remarks: remarks
+                })
+            }
+        );
+
+        const result = await response.json();
+
+console.log("Response status:", response.status);
+console.log("Response body:", result);
+
+        if (response.ok) {
+            alert(result.message);
+            window.location.href = "staff_applications.html";
+        } else {
+            alert(
+    "Error " + response.status + ": " +
+    (result.message || JSON.stringify(result))
+);
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Cannot connect to the server.");
+    }
+}
+    </script>
+    <script>
+async function checkStaffSession() {
+    try {
+        const response = await fetch("/api/staff/me", {
+            credentials: "same-origin"
+        });
+
+        if (!response.ok) {
+            window.location.replace("staff_login.html");
+            return;
+        }
+
+    } catch (error) {
+        console.error("Session check failed:", error);
+        window.location.replace("staff_login.html");
+    }
+}
+
+checkStaffSession();
+</script>
+
+</body>
+</html>

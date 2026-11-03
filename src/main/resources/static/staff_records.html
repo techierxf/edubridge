@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU-BRIDGE | Student Records</title>
+    <link rel="stylesheet" href="staff_dashboard.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <a class="brand" href="staff_dashboard.html">
+            <img src="logo.png" alt="EDU-BRIDGE logo">
+        </a>
+
+        <nav class="side-nav" aria-label="Staff navigation">
+            <a class="nav-link" href="staff_dashboard.html">Dashboard</a>
+            <a class="nav-link active" href="staff_records.html">Record</a>
+            <a class="nav-link" href="staff_applications.html">Applications</a>
+        </nav>
+
+        <a class="logout-link" href="login_page.html">Log out</a>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div class="system-title">Student Enrollment System</div>
+            <a class="primary-btn" href="staff_dashboard.html"
+               style="text-decoration:none">Back to Dashboard</a>
+        </header>
+
+        <section class="page-heading">
+            <div>
+                <h1>Student Records</h1>
+                <p>Search and review registered students.</p>
+            </div>
+        </section>
+
+        <!-- SEARCH AND FILTER -->
+        <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
+
+            <input
+                type="search"
+                id="searchStudent"
+                placeholder="Search student name, ID, or course..."
+                style="padding:12px; flex:1; min-width:200px;"
+            >
+
+            <select id="statusFilter" style="padding:12px;">
+                <option value="ALL">All Statuses</option>
+                <option value="PENDING">Pending</option>
+                <option value="APPROVED">Approved</option>
+                <option value="REJECTED">Rejected</option>
+            </select>
+
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Full Name</th>
+                        <th>Student Type</th>
+                        <th>Course</th>
+                        <th>Year Level</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="recordsTableBody">
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            Loading student records...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="sample-note" id="recordCount">
+            Loading records...
+        </p>
+
+    </main>
+
+    <script>
+        let allRecords = [];
+
+        const tableBody = document.getElementById("recordsTableBody");
+        const searchInput = document.getElementById("searchStudent");
+        const statusFilter = document.getElementById("statusFilter");
+        const recordCount = document.getElementById("recordCount");
+
+        async function loadStudentRecords() {
+            try {
+                const response = await fetch("/api/staff/applications/records");
+
+                if (!response.ok) {
+                    throw new Error("Failed to load student records.");
+                }
+
+                allRecords = await response.json();
+
+                displayRecords(allRecords);
+
+            } catch (error) {
+                console.error("Student Records Error:", error);
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            Unable to load student records.
+                        </td>
+                    </tr>
+                `;
+
+                recordCount.textContent = "Could not retrieve records.";
+            }
+        }
+
+        function displayRecords(records) {
+            tableBody.replaceChildren();
+
+            if (records.length === 0) {
+                const row = document.createElement("tr");
+                const cell = document.createElement("td");
+
+                cell.colSpan = 6;
+                cell.className = "empty-state";
+                cell.textContent = "No matching student records found.";
+
+                row.appendChild(cell);
+                tableBody.appendChild(row);
+
+                recordCount.textContent = "0 records found.";
+                return;
+            }
+
+            records.forEach(student => {
+                const row = document.createElement("tr");
+
+                let studentType = student.studentType || "N/A";
+
+                if (["new", "new_student"].includes(
+                    studentType.toLowerCase()
+                )) {
+                    studentType = "New Student";
+                } else if (studentType.toLowerCase() === "transferee") {
+                    studentType = "Transferee";
+                }
+
+                const values = [
+                    student.studentId ?? "N/A",
+                    student.fullName ?? "N/A",
+                    studentType,
+                    student.courseId ?? "N/A",
+                    student.yearLevel
+                        ? student.yearLevel + " Year"
+                        : "N/A",
+                    student.status ?? "PENDING"
+                ];
+
+                values.forEach(value => {
+                    const cell = document.createElement("td");
+                    cell.textContent = value;
+                    row.appendChild(cell);
+                });
+
+                tableBody.appendChild(row);
+            });
+
+            recordCount.textContent =
+                "Showing " + records.length + " student record(s).";
+        }
+
+        function filterRecords() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const selectedStatus = statusFilter.value;
+
+            const filteredRecords = allRecords.filter(student => {
+                const matchesSearch =
+                    String(student.studentId ?? "").toLowerCase().includes(searchText) ||
+                    (student.fullName ?? "").toLowerCase().includes(searchText) ||
+                    (student.courseId ?? "").toLowerCase().includes(searchText);
+
+                const matchesStatus =
+                    selectedStatus === "ALL" ||
+                    student.status === selectedStatus;
+
+                return matchesSearch && matchesStatus;
+            });
+
+            displayRecords(filteredRecords);
+        }
+
+        searchInput.addEventListener("input", filterRecords);
+        statusFilter.addEventListener("change", filterRecords);
+
+        loadStudentRecords();
+    </script>
+
+</body>
+<script>
+async function checkStaffSession() {
+    try {
+        const response = await fetch("/api/staff/me", {
+            credentials: "same-origin"
+        });
+
+        if (!response.ok) {
+            window.location.replace("staff_login.html");
+            return;
+        }
+
+    } catch (error) {
+        console.error("Session check failed:", error);
+        window.location.replace("staff_login.html");
+    }
+}
+
+checkStaffSession();
+</script>
+</html>

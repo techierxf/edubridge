@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU-BRIDGE | Student Enrollment</title>
+    <link rel="stylesheet" href="student_enrollment.css">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="student_portal.html" aria-label="EDU-BRIDGE Student Portal home">
+            <img src="logo.png" alt="EDU-BRIDGE logo" class="brand-logo">
+            <span class="brand-text">EDU-BRIDGE</span>
+        </a>
+        <div class="header-right">
+            <span class="portal-label">STUDENT ENROLLMENT</span>
+            <a class="logout-button" href="student_portal.html">Back to Portal</a>
+        </div>
+    </header>
+
+    <main class="enrollment-main">
+        <section class="page-heading">
+            <p class="eyebrow">EDU-BRIDGE STUDENT PORTAL</p>
+            <h1>Student Enrollment</h1>
+            <p>Complete the form below to submit your enrollment application.</p>
+        </section>
+
+        <!-- Replace action="#" with the enrollment route agreed with the Spring Boot team. -->
+        <form class="enrollment-form" id="studentEnrollmentForm" action="#" method="post">
+            <section class="form-section">
+                <div class="section-heading">
+                    <span class="section-number">01</span>
+                    <div>
+                        <h2>Student Classification</h2>
+                        <p>Tell us what type of student you are.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="student-type">Student Type <span class="required">*</span></label>
+                        <select id="student-type" name="student_type" required>
+                            <option value="" selected disabled>Select student type</option>
+                            <option value="new">New Student</option>
+                            <option value="transferee">Transferee</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="academic-year">Academic Year <span class="required">*</span></label>
+                        <select id="academic-year" name="academic_year" required>
+                            <option value="" selected disabled>Select academic year</option>
+                            <option value="2026-2027">2026–2027</option>
+                            <option value="2027-2028">2027–2028</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="semester">Semester <span class="required">*</span></label>
+                        <select id="semester" name="semester" required>
+                            <option value="" selected disabled>Select semester</option>
+                            <option value="1st">1st Semester</option>
+                            <option value="2nd">2nd Semester</option>
+                            <option value="summer">Summer</option>
+                        </select>
+                        <small>Select the semester you are applying for. Available semesters should be confirmed by the school.</small>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-heading">
+                    <span class="section-number">02</span>
+                    <div>
+                        <h2>Personal Information</h2>
+                        <p>Enter your information as it appears on your school records.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-field full-width">
+                        <label for="full-name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="full-name" name="full_name" autocomplete="name" placeholder="Enter your complete name" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="birth-date">Date of Birth <span class="required">*</span></label>
+                        <input type="date" id="birth-date" name="date_of_birth" autocomplete="bday" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="sex">Sex <span class="required">*</span></label>
+                        <select id="sex" name="sex" required>
+                            <option value="" selected disabled>Select option</option>
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                            <option value="prefer_not_to_say">Prefer not to say</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" autocomplete="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="contact-number">Contact Number <span class="required">*</span></label>
+                        <input type="tel" id="contact-number" name="contact_number" autocomplete="tel" placeholder="e.g. 09XXXXXXXXX" pattern="[0-9+\-\s()]{7,20}" required>
+                    </div>
+                    <div class="form-field full-width">
+                        <label for="address">Complete Address <span class="required">*</span></label>
+                        <textarea id="address" name="complete_address" rows="3" autocomplete="street-address" placeholder="House number, street, barangay, city, province" required></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-heading">
+                    <span class="section-number">03</span>
+                    <div>
+                        <h2>Academic Information</h2>
+                        <p>Select the program you want to apply for.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-field full-width">
+                        <label for="course">Course / Program <span class="required">*</span></label>
+                        <select id="course" name="course_id" required>
+                            <option value="" selected disabled>Select a course or program</option>
+                            <option value="BSIT">BSIT — Bachelor of Science in Information Technology</option>
+                            <option value="BSCS">BSCS — Bachelor of Science in Computer Science</option>
+                            <option value="BSIS">BSIS — Bachelor of Science in Information Systems</option>
+                            <option value="BSBA">BSBA — Bachelor of Science in Business Administration</option>
+                            <option value="BSA">BSA — Bachelor of Science in Accountancy</option>
+                            <option value="BSEd">BSEd — Bachelor of Secondary Education</option>
+                            <option value="BEEd">BEEd — Bachelor of Elementary Education</option>
+                            <option value="BSCRIM">BSCRIM — Bachelor of Science in Criminology</option>
+                            <option value="BSPSYCH">BSPSYCH — Bachelor of Science in Psychology</option>
+                            <option value="BSHM">BSHM — Bachelor of Science in Hospitality Management</option>
+                            <option value="BSTM">BSTM — Bachelor of Science in Tourism Management</option>
+                            <option value="BSN">BSN — Bachelor of Science in Nursing</option>
+                            <option value="BSCpE">BSCpE — Bachelor of Science in Computer Engineering</option>
+                            <option value="BSECE">BSECE — Bachelor of Science in Electronics Engineering</option>
+                            <option value="BSMT">BSMT — Bachelor of Science in Medical Technology</option>
+                        </select>
+                        <small>Sample programs only. Confirm available programs with the school.</small>
+                    </div>
+                    <div class="form-field">
+                        <label for="year-level">Preferred Year Level <span class="required">*</span></label>
+                        <select id="year-level" name="year_level" required>
+                            <option value="" selected disabled>Select year level</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section" id="previous-school-section">
+                <div class="section-heading">
+                    <span class="section-number">04</span>
+                    <div>
+                        <h2>Previous School Information</h2>
+                        <p>These fields are only available to transferees.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-field full-width">
+                        <label for="previous-school">Previous School Name</label>
+                        <input type="text" id="previous-school" name="previous_school_name" placeholder="Enter previous school name" disabled>
+                    </div>
+                    <div class="form-field">
+                        <label for="previous-course">Previous Course / Program</label>
+                        <input type="text" id="previous-course" name="previous_course" placeholder="Enter previous course" disabled>
+                    </div>
+                    <div class="form-field">
+                        <label for="last-year-level">Last Year Level Attended</label>
+                        <select id="last-year-level" name="last_year_level" disabled>
+                            <option value="" selected>Select year level</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-heading">
+                    <span class="section-number">05</span>
+                    <div>
+                        <h2>Parent / Guardian Information</h2>
+                        <p>Provide a contact person in case the school needs to reach your family.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="guardian-name">Parent / Guardian Full Name <span class="required">*</span></label>
+                        <input type="text" id="guardian-name" name="guardian_full_name" placeholder="Enter full name" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="guardian-relationship">Relationship <span class="required">*</span></label>
+                        <select id="guardian-relationship" name="guardian_relationship" required>
+                            <option value="" selected disabled>Select relationship</option>
+                            <option value="mother">Mother</option>
+                            <option value="father">Father</option>
+                            <option value="guardian">Guardian</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="guardian-contact">Guardian Contact Number <span class="required">*</span></label>
+                        <input type="tel" id="guardian-contact" name="guardian_contact_number" placeholder="e.g. 09XXXXXXXXX" pattern="[0-9+\-\s()]{7,20}" required>
+                    </div>
+                </div>
+            </section>
+
+            <div class="form-notice">
+                <strong>Before you submit</strong>
+                <p>Review your details carefully. Submission and application status will be handled by the school's enrollment system.</p>
+            </div>
+
+            <div class="form-actions">
+                <a class="cancel-button" href="student_portal.html">Cancel</a>
+                <button class="submit-button" type="submit">Submit Enrollment <span aria-hidden="true">→</span></button>
+            </div>
+        </form>
+    </main>
+
+    <footer class="site-footer">
+        <p>EDU-BRIDGE Student Enrollment System</p>
+    </footer>
+    
+
+    <script>
+        // New students cannot fill previous-school fields.
+        // Backend must also validate student_type and the submitted fields.
+        const studentType = document.getElementById("student-type");
+        const previousSchoolSection = document.getElementById("previous-school-section");
+        const previousSchoolFields = previousSchoolSection.querySelectorAll("input, select");
+
+        function updateStudentTypeFields() {
+            const isTransferee = studentType.value === "transferee";
+            previousSchoolSection.classList.toggle("transferee-selected", isTransferee);
+
+            previousSchoolFields.forEach((field) => {
+                field.disabled = !isTransferee;
+                field.required = false;
+                if (!isTransferee) {
+                    field.value = "";
+                }
+            });
+        }
+
+        studentType.addEventListener("change", updateStudentTypeFields);
+        updateStudentTypeFields();
+    
+        studentType.addEventListener("change", updateStudentTypeFields);
+        updateStudentTypeFields();
+    </script>
+
+    <!-- Enrollment Submission Script -->
+    <script>
+        document.getElementById("studentEnrollmentForm")
+            .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const form = event.target;
+
+            const enrollmentData = {
+                studentType: form.elements["student_type"].value,
+                academicYear: form.elements["academic_year"].value,
+                semester: form.elements["semester"].value,
+                fullName: form.elements["full_name"].value,
+                dateOfBirth: form.elements["date_of_birth"].value,
+                sex: form.elements["sex"].value,
+                email: form.elements["email"].value,
+                contactNumber: form.elements["contact_number"].value,
+                completeAddress: form.elements["complete_address"].value,
+                courseId: form.elements["course_id"].value,
+                yearLevel: Number(form.elements["year_level"].value),
+
+                previousSchoolName: form.elements["previous_school_name"].value,
+                previousCourse: form.elements["previous_course"].value,
+                lastYearLevel: form.elements["last_year_level"].value
+                    ? Number(form.elements["last_year_level"].value)
+                    : null,
+
+                guardianFullName: form.elements["guardian_full_name"].value,
+                guardianRelationship: form.elements["guardian_relationship"].value,
+                guardianContactNumber: form.elements["guardian_contact_number"].value
+            };
+
+            try {
+                const response = await fetch("/api/enrollments", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(enrollmentData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                    window.location.href = "student_status.html";
+               } else {
+    console.error("Enrollment Error:", response.status, result);
+    alert("Error " + response.status + ": " +
+          (result.message || JSON.stringify(result)));
+}
+
+            } catch (error) {
+                console.error(error);
+                alert("Cannot connect to the server. Please try again.");
+            }
+        });
+        
+    </script>
+ 
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const form = document.getElementById("studentEnrollmentForm");
+
+    function setFormDisabled(disabled) {
+        form.querySelectorAll("input, select, textarea, button")
+            .forEach(field => field.disabled = disabled);
+    }
+
+    function showNotice(message, remarks = "") {
+        const notice = document.createElement("div");
+        notice.className = "enrollment-status-notice";
+
+        const messageText = document.createElement("p");
+        messageText.textContent = message;
+        notice.appendChild(messageText);
+
+        if (remarks) {
+            const remarksHeading = document.createElement("strong");
+            remarksHeading.textContent = "Registrar Remarks:";
+
+            const remarksText = document.createElement("p");
+            remarksText.textContent = remarks;
+
+            notice.appendChild(remarksHeading);
+            notice.appendChild(remarksText);
+        }
+
+        form.parentNode.insertBefore(notice, form);
+    }
+
+    // Disable the form while checking the student's application.
+    setFormDisabled(true);
+
+    try {
+        const response = await fetch("/api/enrollments/mine");
+
+        if (response.status === 401) {
+            alert("Please log in first.");
+            window.location.href = "student_login.html";
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Unable to check enrollment application.");
+        }
+
+        const enrollments = await response.json();
+
+        // No previous application: allow normal enrollment.
+        if (enrollments.length === 0) {
+            setFormDisabled(false);
+            studentType.dispatchEvent(new Event("change"));
+            return;
+        }
+
+        // Get the latest application.
+        enrollments.sort((a, b) =>
+            new Date(b.createdAt) - new Date(a.createdAt)
+        );
+
+        const application = enrollments[0];
+
+        // Fill the form with the previous application information.
+        const fields = {
+            student_type: application.studentType,
+            academic_year: application.academicYear,
+            semester: application.semester,
+            full_name: application.fullName,
+            date_of_birth: application.dateOfBirth,
+            sex: application.sex,
+            email: application.email,
+            contact_number: application.contactNumber,
+            complete_address: application.completeAddress,
+            course_id: application.courseId,
+            year_level: application.yearLevel,
+            previous_school_name: application.previousSchoolName,
+            previous_course: application.previousCourse,
+            last_year_level: application.lastYearLevel,
+            guardian_full_name: application.guardianFullName,
+            guardian_relationship: application.guardianRelationship,
+            guardian_contact_number: application.guardianContactNumber
+        };
+
+        Object.entries(fields).forEach(([name, value]) => {
+            if (form.elements[name]) {
+                form.elements[name].value = value ?? "";
+            }
+        });
+
+        const status = (application.status || "").toUpperCase();
+
+        // REJECTED: allow the student to correct and resubmit.
+        if (status === "REJECTED") {
+
+            setFormDisabled(false);
+
+            // Apply the correct transferee/new-student field behavior.
+            studentType.dispatchEvent(new Event("change"));
+
+            showNotice(
+                "Your previous application was rejected. Please review the registrar's remarks, correct your information if necessary, and submit a new application.",
+                application.remarks || "No remarks provided."
+            );
+
+        } else {
+
+            // PENDING or APPROVED: keep the previous application read-only.
+            setFormDisabled(true);
+
+            showNotice(
+                status === "APPROVED"
+                    ? "Your application has already been approved. Your submitted information is displayed below and cannot be edited."
+                    : "You already have an application awaiting staff review. Your submitted information is displayed below and cannot be edited."
+            );
+        }
+
+    } catch (error) {
+        console.error("Enrollment Check Error:", error);
+        alert("Unable to check your enrollment. Please refresh the page.");
+    }
+});
+</script>
+
+    
+
+</body>
+</html>
+

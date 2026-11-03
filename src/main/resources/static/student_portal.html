@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU-BRIDGE | Student Portal</title>
+    <link rel="stylesheet" href="student_portal.css">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="student_portal.html" aria-label="EDU-BRIDGE Student Portal home">
+            <img src="logo.png" alt="EDU-BRIDGE logo" class="brand-logo">
+            <span class="brand-text">EDU-BRIDGE</span>
+        </a>
+
+        <div class="header-right">
+            <span class="portal-label">STUDENT PORTAL</span>
+            
+
+            <!-- BACKEND INTEGRATION:
+                 Replace this link with the agreed Spring Boot logout route.
+                 The backend must invalidate the student's session before
+                 redirecting to the login page.
+            -->
+            <a class="logout-button" href="login_page.html">Log Out</a>
+        </div>
+    </header>
+
+    <main class="portal-main">
+        <section class="welcome-section">
+            <p class="eyebrow">STUDENT DASHBOARD</p>
+
+            <!-- DYNAMIC DATABASE DATA:
+                 Display the full name of the currently authenticated student.
+                 Replace the placeholder with the agreed template expression
+                 or dynamic-data mechanism after the backend approach is finalized.
+            -->
+            <h1>
+                Welcome back,
+                <span class="student-name" id="studentName">Loading...</span>
+            </h1>
+
+            <p class="welcome-description">
+                Manage your enrollment and keep track of your academic application in one place.
+            </p>
+        </section>
+
+        <section class="portal-actions" aria-label="Student portal actions">
+            <article class="action-card enroll-card">
+                <div class="card-icon" aria-hidden="true">+</div>
+
+                <h2>ENROLL NOW</h2>
+
+                <p>
+                    Start your enrollment application and provide the required student information.
+                </p>
+
+                <a class="action-button primary-button" href="student_enrollment.html">
+                    Go to Enrollment <span aria-hidden="true">→</span>
+                </a>
+            </article>
+
+            <article class="action-card status-card">
+                <div class="card-icon status-icon" aria-hidden="true">✓</div>
+
+                <h2>VIEW ENROLLMENT STATUS</h2>
+
+                <p>
+                    Check the progress and current status of your enrollment application.
+                </p>
+
+                <a class="action-button secondary-button" href="student_status.html">
+                    Check Status <span aria-hidden="true">→</span>
+                </a>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>EDU-BRIDGE Student Enrollment System</p>
+    </footer>
+    
+<script>
+document.addEventListener("DOMContentLoaded", async function() {
+
+    const studentName = document.getElementById("studentName");
+
+    // Check the logged-in student
+    try {
+        const response = await fetch("/api/students/me");
+
+        if (!response.ok) {
+            window.location.href = "student_login.html";
+            return;
+        }
+
+        const student = await response.json();
+
+        studentName.textContent = student.studentName;
+
+    } catch (error) {
+        console.error("Error loading student information:", error);
+        studentName.textContent = "Unable to load";
+    }
+
+    // Logout
+    const logoutButton = document.querySelector(".logout-button");
+
+    logoutButton.addEventListener("click", async function(event) {
+        event.preventDefault();
+
+        try {
+            await fetch("/api/students/logout", {
+                method: "POST"
+            });
+
+            window.location.href = "student_login.html";
+
+        } catch (error) {
+            console.error("Logout failed:", error);
+            alert("Unable to log out. Please try again.");
+        }
+    });
+
+});
+</script>
+</body>
+</html>
