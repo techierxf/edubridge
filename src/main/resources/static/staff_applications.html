@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDU-BRIDGE | Applications</title><link rel="stylesheet" href="staff_dashboard.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="staff_dashboard.html"><img src="logo.png" alt="EDU-BRIDGE logo"></a>
+    <nav class="side-nav" aria-label="Staff navigation">
+      <a class="nav-link" href="staff_dashboard.html">Dashboard</a>
+      <a class="nav-link" href="staff_records.html">Record</a>
+      <a class="nav-link active" href="staff_applications.html">Applications</a>
+    </nav>
+    <a class="logout-link" href="login_page.html">Log out</a>
+  </aside>
+  <main class="main-content">
+    <header class="topbar"><div class="system-title">Student Enrollment System</div><a class="primary-btn" href="staff_dashboard.html" style="text-decoration:none">Back to Dashboard</a></header>
+    <section class="page-heading"><div><h1>Enrollment Applications</h1><p>Review applications submitted by students.</p></div></section>
+    <div class="table-wrap">
+      <table><thead><tr><th>Reference No.</th><th>Applicant</th><th>Course</th><th>Date Submitted</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody id="applicationsTable">
+    <tr>
+        <td colspan="6">Loading applications...</td>
+    </tr>
+</tbody></table>
+    </div>
+    <p class="sample-note">Preview page with sample data. Application review, approval/rejection, remarks, and status updates require backend integration.</p>
+  </main>
+    
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const table = document.getElementById("applicationsTable");
+
+    try {
+        const response = await fetch("/api/staff/applications");
+        const applications = await response.json();
+
+        if (!response.ok) {
+            throw new Error("Failed to load applications.");
+        }
+
+        table.innerHTML = "";
+
+        if (applications.length === 0) {
+            table.innerHTML = `
+                <tr>
+                    <td colspan="6">No enrollment applications found.</td>
+                </tr>
+            `;
+            return;
+        }
+
+        applications.forEach(app => {
+
+            const row = document.createElement("tr");
+
+            const date = new Date(app.createdAt)
+                .toLocaleDateString();
+
+            row.innerHTML = `
+                <td>${app.referenceNo}</td>
+                <td>${app.fullName}</td>
+                <td>${app.courseId}</td>
+                <td>${date}</td>
+                <td>
+                    <span class="status"
+                        style="background:#fff0cc;color:#805600">
+                        ${app.status}
+                    </span>
+                </td>
+                <td>
+                    <button type="button"
+                        class="primary-btn"
+                        onclick="viewApplication(${app.id})">
+                        Review
+                    </button>
+                </td>
+            `;
+
+            table.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="6">Unable to load applications.</td>
+            </tr>
+        `;
+    }
+});
+
+function viewApplication(id) {
+    window.location.href = "staff_review.html?id=" + id;
+}
+</script>
+<script>
+async function checkStaffSession() {
+    try {
+        const response = await fetch("/api/staff/me", {
+            credentials: "same-origin"
+        });
+
+        if (!response.ok) {
+            window.location.replace("staff_login.html");
+            return;
+        }
+
+    } catch (error) {
+        console.error("Session check failed:", error);
+        window.location.replace("staff_login.html");
+    }
+}
+
+checkStaffSession();
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+
+/* MANAGE STAFF PAGE */
+
+.management-intro {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 23px;
+    margin-bottom: 25px;
+    border: 1px solid #d6e6f5;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 4px 14px rgba(24, 57, 89, 0.05);
+}
+
+.intro-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 13px;
+    background: #e4f2ff;
+    font-size: 28px;
+}
+
+.management-intro h2 {
+    margin: 0 0 7px;
+    color: #183f6b;
+    font-size: 20px;
+}
+
+.management-intro p {
+    margin: 0;
+    color: #64778b;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.staff-form-card {
+    max-width: 850px;
+    padding: 30px;
+    border: 1px solid #dce8f3;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 10px 30px rgba(24, 63, 107, 0.08);
+}
+
+.staff-form-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e4edf5;
+}
+
+.staff-form-heading h2 {
+    margin: 0 0 8px;
+    color: #183f6b;
+    font-size: 22px;
+}
+
+.staff-form-heading p {
+    margin: 0;
+    color: #64778b;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.admin-label {
+    padding: 7px 13px;
+    border-radius: 20px;
+    background: #e4f2ff;
+    color: #1260b8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.staff-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 23px 20px;
+}
+
+.staff-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.staff-field label {
+    color: #20364d;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.staff-field input {
+    width: 100%;
+    min-height: 47px;
+    padding: 12px 14px;
+    border: 1px solid #cfdce9;
+    border-radius: 8px;
+    outline: none;
+    background: #f8fbff;
+    color: #142541;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.staff-field input:focus {
+    border-color: #1260b8;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(18, 96, 184, 0.10);
+}
+
+.staff-field small {
+    color: #718198;
+    font-size: 12px;
+}
+
+.staff-security-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 27px;
+    padding: 15px;
+    border: 1px solid #d9eafa;
+    border-radius: 9px;
+    background: #f1f8ff;
+}
+
+.staff-security-note span {
+    font-size: 19px;
+}
+
+.staff-security-note p {
+    margin: 0;
+    color: #536b84;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.staff-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 27px;
+    padding-top: 22px;
+    border-top: 1px solid #e4edf5;
+}
+
+.staff-form-actions button {
+    min-height: 45px;
+}
+
+.staff-form-actions button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.staff-message {
+    margin: 18px 0 0;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.staff-message.success {
+    color: #168447;
+}
+
+.staff-message.error {
+    color: #c53030;
+}
+
+.management-footer {
+    margin-top: 28px;
+    color: #718198;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 750px) {
+    .staff-form-card {
+        padding: 22px 17px;
+    }
+
+    .staff-form-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .management-intro {
+        align-items: flex-start;
+        padding: 17px;
+    }
+
+    .staff-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .staff-form-actions button {
+        width: 100%;
+    }
+}

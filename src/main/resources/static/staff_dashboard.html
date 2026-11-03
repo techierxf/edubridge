@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDU-BRIDGE | Staff Dashboard</title>
+  <link rel="stylesheet" href="staff_dashboard.css">
+  <script src="staff_dashboard.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="staff_dashboard.html" aria-label="EDU-BRIDGE Dashboard">
+      <img src="logo.png" alt="EDU-BRIDGE logo">
+    </a>
+    
+    
+  
+<nav class="side-nav" aria-label="Staff navigation">
+  <a class="nav-link active" href="staff_dashboard.html">Dashboard</a>
+  <a class="nav-link" href="staff_records.html">Record</a>
+  <a class="nav-link" href="staff_applications.html">Applications</a>
+
+  <!-- ADMIN ONLY -->
+  <a class="nav-link" href="staff_management.html"
+     id="manageStaffLink" style="display: none;">
+     Manage Staff
+  </a>
+</nav>
+      <a class="logout-link" href="#" id="staffLogout">Log out</a>
+  </aside>
+  
+  <main class="main-content">
+    <header class="topbar">
+      <div class="system-title">Student Enrollment System</div>
+      <button class="primary-btn" id="openAddStudent" type="button">+ Add Student</button>
+    </header>
+
+    <section class="page-heading">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Academic Year <span id="displayAcademicYear">2026–2027</span></p>
+      </div>
+      <label class="year-picker">Academic Year
+        <select id="academicYear" aria-label="Select academic year">
+          <option value="2026–2027" selected>2026–2027</option>
+          <option value="2025–2026">2025–2026</option>
+          <option value="2027–2028">2027–2028</option>
+        </select>
+      </label>
+    </section>
+      <h2 id="staffWelcome">Welcome, Staff!</h2>
+
+    
+<section class="stats-grid" aria-label="Student statistics">
+
+    <article class="stat-card">
+        <p>Total Students</p>
+        <strong id="totalStudents">—</strong>
+    </article>
+
+    <article class="stat-card">
+        <p>Enrolled Students</p>
+        <strong id="enrolledStudents">—</strong>
+    </article>
+
+    <article class="stat-card">
+        <p>Pending Applications</p>
+        <strong id="pendingApplications">—</strong>
+    </article>
+
+    <article class="stat-card">
+        <p>Rejected Applications</p>
+        <strong id="rejectedApplications">—</strong>
+    </article>
+
+</section>
+
+
+    <section class="recent-section">
+      <div class="section-title-row">
+        <h2>Recent Students</h2>
+        <a class="text-link" href="staff_records.html">View all records →</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Student ID</th><th>Full Name</th><th>Student Type</th><th>Course</th><th>Year Level</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="recentStudentsBody">
+            <tr><td colspan="6" class="empty-state">No student records available yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+     <p class="sample-note">Showing the five most recent enrollment applications.</p>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="addStudentModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div>
+          <h2 id="modalTitle">Add Student</h2>
+          <p>Enter the student's basic information.</p>
+        </div>
+        <button class="close-btn" id="closeAddStudent" type="button" aria-label="Close form">&times;</button>
+      </div>
+      <form id="addStudentForm">
+        <label>Full Name
+          <input type="text" name="full_name" required placeholder="Enter full name">
+        </label>
+        <label>Student Type
+          <select name="student_type" required>
+            <option value="">Select student type</option>
+            <option value="new_student">New Student</option>
+            <option value="transferee">Transferee</option>
+          </select>
+        </label>
+        <div class="form-row">
+          <label>Course
+            <select name="course" required>
+              <option value="">Select course</option>
+              <option>BSIT</option><option>BSCS</option><option>BSIS</option>
+              <option>BSBA</option><option>BSA</option><option>BSED</option>
+              <option>BEED</option><option>BSCRIM</option>
+            </select>
+          </label>
+          <label>Year Level
+            <select name="year_level" required>
+              <option value="">Select year</option>
+              <option>1st Year</option><option>2nd Year</option>
+              <option>3rd Year</option><option>4th Year</option><option>5th Year</option>
+            </select>
+          </label>
+        </div>
+        <label>Email Address
+          <input type="email" name="email" placeholder="student@example.com">
+        </label>
+        <label>Contact Number
+          <input type="tel" name="contact_number" placeholder="09XXXXXXXXX">
+        </label>
+        <div class="modal-actions">
+          <button class="secondary-btn" id="cancelAddStudent" type="button">Cancel</button>
+          <button class="primary-btn" type="submit">Save Student</button>
+        </div>
+        <p class="form-message" id="formMessage" role="status"></p>
+        <!-- Backend integration: replace the demo submit handler with the Spring Boot endpoint and database response. -->
+      </form>
+    </section>
+  </div>
+   <script>
+document.addEventListener("DOMContentLoaded", async function() {
+
+    try {
+        const response = await fetch("/api/staff/me", {
+            credentials: "same-origin"
+        });
+
+        if (!response.ok) {
+            window.location.href = "staff_login.html";
+            return;
+        }
+
+        const data = await response.json();
+
+        const welcome = document.getElementById("staffWelcome");
+
+        if (welcome) {
+            welcome.textContent = "Welcome, " + data.fullName + "!";
+        }
+
+        const manageStaffLink =
+            document.getElementById("manageStaffLink");
+
+        if (manageStaffLink) {
+            manageStaffLink.style.display =
+                data.role === "ADMIN" ? "block" : "none";
+        }
+
+    } catch (error) {
+        console.error("Staff session error:", error);
+    }
+
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const logoutButton = document.getElementById("staffLogout");
+
+    if (logoutButton) {
+        logoutButton.addEventListener("click", async function(event) {
+            event.preventDefault();
+
+            try {
+                const response = await fetch("/api/staff/logout", {
+                    method: "POST",
+                    credentials: "same-origin"
+                });
+
+                if (response.ok) {
+                    window.location.replace("staff_login.html");
+                } else {
+                    alert("Logout failed. Please try again.");
+                }
+
+            } catch (error) {
+                console.error("Logout error:", error);
+                alert("Unable to connect to the server.");
+            }
+        });
+    }
+
+});
+</script>
+</body>
+</html>
