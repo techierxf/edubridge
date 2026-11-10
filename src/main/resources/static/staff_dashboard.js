@@ -1,45 +1,12 @@
-
-const modal = document.getElementById("addStudentModal");
-const openButton = document.getElementById("openAddStudent");
-const closeButton = document.getElementById("closeAddStudent");
-const cancelButton = document.getElementById("cancelAddStudent");
-const form = document.getElementById("addStudentForm");
-const formMessage = document.getElementById("formMessage");
 const yearPicker = document.getElementById("academicYear");
 const displayYear = document.getElementById("displayAcademicYear");
 
-// OPEN MODAL
-function openModal() {
-    modal.hidden = false;
-    formMessage.textContent = "";
-
-    const firstInput = form.querySelector('input[name="full_name"]');
-    if (firstInput) firstInput.focus();
-}
-
-// CLOSE MODAL
-function closeModal() {
-    modal.hidden = true;
-    formMessage.textContent = "";
-    openButton.focus();
-}
-
-openButton.addEventListener("click", openModal);
-closeButton.addEventListener("click", closeModal);
-cancelButton.addEventListener("click", closeModal);
-
-modal.addEventListener("click", (event) => {
-    if (event.target === modal) closeModal();
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !modal.hidden) closeModal();
-});
-
 // ACADEMIC YEAR
-yearPicker.addEventListener("change", () => {
-    displayYear.textContent = yearPicker.value;
-});
+if (yearPicker && displayYear) {
+    yearPicker.addEventListener("change", () => {
+        displayYear.textContent = yearPicker.value;
+    });
+}
 
 // DASHBOARD STATISTICS
 async function loadDashboardStats() {
@@ -69,17 +36,7 @@ async function loadDashboardStats() {
     }
 }
 
-// LOAD STATISTICS WHEN PAGE OPENS
-loadDashboardStats();
-
-// DEMO-ONLY ADD STUDENT HANDLER
-form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    formMessage.textContent =
-        "Preview only: this form is not connected to the database, so no student was saved.";
-});
-
+// RECENT STUDENTS
 async function loadRecentStudents() {
     const tableBody = document.getElementById("recentStudentsBody");
 
@@ -131,10 +88,19 @@ async function loadRecentStudents() {
     } catch (error) {
         console.error("Recent Students Error:", error);
 
-        tableBody.innerHTML =
-            '<tr><td colspan="6">Unable to load student records.</td></tr>';
+        tableBody.replaceChildren();
+
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 6;
+        cell.textContent = "Unable to load student records.";
+
+        row.appendChild(cell);
+        tableBody.appendChild(row);
     }
 }
 
+// LOAD DASHBOARD DATA
+loadDashboardStats();
 loadRecentStudents();
-
